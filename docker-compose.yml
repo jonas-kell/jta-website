@@ -1,0 +1,11 @@
+services:
+    app:
+        image: node:20-buster
+        working_dir: /app
+        ports:
+            - "5173:5173"
+        volumes:
+            - .:/app
+        environment:
+            - NODE_ENV=development
+        command: npm run dev

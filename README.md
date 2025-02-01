@@ -8,6 +8,8 @@ Standalone and integratable page that describes the details on the timing system
 docker compose up
 ```
 
+Go to [http://localhost:5173/](http://localhost:5173/).
+
 ## Deploy
 
 This is deployed on Github Pages automatically.
