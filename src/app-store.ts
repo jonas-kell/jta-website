@@ -16,6 +16,9 @@ export default defineStore("counter", () => {
                 if (!hasUpdatedOnce) {
                     // initialize from the url only once
 
+                    if (router.currentRoute.value.query.dark ?? undefined) {
+                        dark.value = router.currentRoute.value.query.dark === "true";
+                    }
                     if (router.currentRoute.value.query.displayTitle ?? undefined) {
                         displayTitle.value = router.currentRoute.value.query.displayTitle === "true";
                     }
@@ -32,12 +35,20 @@ export default defineStore("counter", () => {
     watch(displayTitle, () => {
         updateURLSyncState(true);
     });
+    const dark = ref(true);
+    watch(dark, () => {
+        updateURLSyncState(true);
+    });
 
     function updateURLSyncState(apply: boolean = true): null | { [key: string]: string } {
         if (hasUpdatedOnce) {
             // the state has once been read from the url. Now it is stored in memory
 
-            const updatedQuery = { ...router.currentRoute.value.query, displayTitle: displayTitle.value ? "true" : "false" };
+            const updatedQuery = {
+                ...router.currentRoute.value.query,
+                displayTitle: displayTitle.value ? "true" : "false",
+                dark: dark.value ? "true" : "false",
+            };
 
             if (apply) {
                 // change of the internal state has happened. Update the url
@@ -55,6 +66,7 @@ export default defineStore("counter", () => {
 
     return {
         displayTitle,
+        dark,
         updateURLSyncState,
     };
 });
