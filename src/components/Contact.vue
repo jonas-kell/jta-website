@@ -16,16 +16,18 @@
 
     <h3>Zubuchung eines Anlagenbetreuers und/oder Zeitmessers:</h3>
     <img src="/public/tsv-smue-experts.jpg" class="small-image" />
-    <p class="multiline-p">
-        Grundsätzlich ist die Miete der Anlage ohne Lieferung, Auf-/Abbau oder Betrieb. <br />
-        Die buchenden Vereine sind selbst hierfür verantwortlich. <br />
-        Hierzu muss vorher die entsprechende Fortbildung/Schulung erfolgt sein. <br />
-        Der TSV-Schwabmünchen hat ausgebildete Verantwortliche, die bei Bedarf engagiert werden können. <br />
-        Dies geschieht unabhängig von der Anlagenmiete und unabhängig <br />
-        von dem an den Bezirk Schwaben zu entrichtenden Mietbetrag.<br />
-        Auch Transport/Zeitmess-Wohnmobil sind unabhängig von der Miete extra zu beantragen.<br />
-        Bei Bedarf unbedingt bei Kontaktaufnahme ansprechen!!
+
+    <p class="multiline-p" style="margin-top: 1em">
+        Grundsätzlich ist die Miete der Anlage ohne Lieferung, Auf-/Abbau oder Betrieb.
     </p>
+    <p class="multiline-p">Die buchenden Vereine sind selbst hierfür verantwortlich.</p>
+    <p class="multiline-p">Hierzu muss vorher die entsprechende Fortbildung/Schulung erfolgt sein.</p>
+    <p class="multiline-p">Der TSV-Schwabmünchen hat ausgebildete Verantwortliche,</p>
+    <p class="multiline-p">die bei Bedarf zusätzlich engagiert werden können.</p>
+    <p class="multiline-p">Dies geschieht unabhängig von der Anlagenmiete und unabhängig</p>
+    <p class="multiline-p">von dem an den Bezirk Schwaben zu entrichtenden Mietbetrag.</p>
+    <p class="multiline-p">Auch Transport/Zeitmess-Wohnmobil sind unabhängig von der Miete extra zu beantragen.</p>
+    <p class="multiline-p">Bei Bedarf unbedingt bei Kontaktaufnahme ansprechen!!</p>
 
     <p>
         <a href="mailto:zeitnahme@blv-schwaben.de">zeitnahme@blv-schwaben.de</a>

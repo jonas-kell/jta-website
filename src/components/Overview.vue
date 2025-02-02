@@ -16,6 +16,8 @@
     <p>
         <router-link to="contact">Kontakt</router-link>
     </p>
+
+    <img src="/public/Logo-Schwaben.png" class="small-image" />
 </template>
 
 <script setup lang="ts">

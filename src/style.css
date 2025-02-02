@@ -18,23 +18,90 @@ a:hover {
     color: #535bf2;
 }
 
-/* Lol, this destroys everything on SOME devices.... 
-Now with this gone it works*/
-/* html {
-    width: 100%;
-    height: 100%;
-} */
-
-body {
+html,
+body,
+#app,
+.app-container {
     margin: 0;
-    display: flex;
-    place-items: center;
 
+    min-width: var(--cfw);
+    min-height: -webkit-fill-available;
+    min-height: var(--cfh);
+}
+
+.app-container {
+    margin: 0 auto;
+    place-items: center;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.app-dark {
+    color-scheme: dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+}
+
+.app-light {
+    color-scheme: light;
+    color: #213547;
+    background-color: #ffffff;
+}
+
+.content {
     width: 100%;
     height: 100%;
 
     min-width: 500px;
     min-height: 600px;
+
+    margin: 0 auto;
+    place-items: center;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+.privacy-link-container {
+    min-width: 500px;
+    width: 100%;
+
+    margin: 0 auto;
+    place-items: center;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* Starting non-page stuff */
+
+.small-image {
+    max-width: 60%;
+    max-height: 30vh;
+
+    min-height: 90px;
+}
+
+p {
+    margin: 1em;
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+p.multiline-p {
+    margin: 0;
+    margin-left: 2em;
+    margin-right: 2em;
+
+    line-height: 1.5;
 }
 
 h1 {
@@ -57,59 +124,4 @@ h3 {
 
     font-size: 1.2em;
     line-height: 1.1;
-}
-
-#app {
-    width: 100%;
-    height: 100%;
-}
-
-.app-dark {
-    color-scheme: dark;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
-}
-
-.app-light {
-    color-scheme: light;
-    color: #213547;
-    background-color: #ffffff;
-}
-
-.app-container {
-    width: 100%;
-    height: 100%;
-}
-
-p {
-    margin-left: 2em;
-    margin-right: 2em;
-}
-
-.content {
-    width: 100%;
-    height: 100%;
-
-    margin: 0 auto;
-    place-items: center;
-    text-align: center;
-
-    display: flex;
-    flex-direction: column;
-}
-
-.spacer {
-    flex-grow: 1;
-}
-
-.small-image {
-    max-width: 60%;
-    max-height: 40vh;
-
-    min-height: 90px;
-}
-
-.multiline-p {
-    line-height: 1.4;
-    max-width: 90%;
 }
