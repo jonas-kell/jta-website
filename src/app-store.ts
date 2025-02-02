@@ -19,8 +19,8 @@ export default defineStore("counter", () => {
                     if (router.currentRoute.value.query.dark ?? undefined) {
                         dark.value = router.currentRoute.value.query.dark === "true";
                     }
-                    if (router.currentRoute.value.query.displayTitle ?? undefined) {
-                        displayTitle.value = router.currentRoute.value.query.displayTitle === "true";
+                    if (router.currentRoute.value.query.standalone ?? undefined) {
+                        standalone.value = router.currentRoute.value.query.standalone === "true";
                     }
 
                     hasUpdatedOnce = true;
@@ -31,8 +31,8 @@ export default defineStore("counter", () => {
         { deep: true }
     );
 
-    const displayTitle = ref(true);
-    watch(displayTitle, () => {
+    const standalone = ref(true);
+    watch(standalone, () => {
         updateURLSyncState(true);
     });
     const dark = ref(true);
@@ -46,7 +46,7 @@ export default defineStore("counter", () => {
 
             const updatedQuery = {
                 ...router.currentRoute.value.query,
-                displayTitle: displayTitle.value ? "true" : "false",
+                standalone: standalone.value ? "true" : "false",
                 dark: dark.value ? "true" : "false",
             };
 
@@ -65,7 +65,7 @@ export default defineStore("counter", () => {
     }
 
     return {
-        displayTitle,
+        standalone,
         dark,
         updateURLSyncState,
     };

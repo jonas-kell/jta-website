@@ -1,11 +1,17 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Overview from "./components/Overview.vue";
 import Calendar from "./components/Calendar.vue";
+import Price from "./components/Price.vue";
+import Download from "./components/Download.vue";
+import Contact from "./components/Contact.vue";
 import useAppStore from "./app-store";
 
 const routes = [
     { path: "/", component: Overview },
     { path: "/calendar", component: Calendar },
+    { path: "/price", component: Price },
+    { path: "/download", component: Download },
+    { path: "/contact", component: Contact },
     { path: "/:pathMatch(.*)*", redirect: "/" },
 ];
 

@@ -1,11 +1,21 @@
 <template>
-    <h3>Start</h3>
+    <h1 v-if="appStore.standalone">Leichtathleitk Zeitnahme Anlage Bezirk Schwaben</h1>
 
+    <img src="/Title-Image.jpg" class="title-image" />
+
+    <h2>Übersicht</h2>
     <p>
-        {{ appStore.displayTitle }}
+        <router-link to="calendar">Einsätze / Kalender</router-link>
     </p>
-
-    <router-link to="calendar">Cal</router-link>
+    <p>
+        <router-link to="price">Preis / Angebot</router-link>
+    </p>
+    <p>
+        <router-link to="download">Downloads / Materialien</router-link>
+    </p>
+    <p>
+        <router-link to="contact">Kontakt</router-link>
+    </p>
 </template>
 
 <script setup lang="ts">
@@ -14,4 +24,11 @@
     const appStore = useAppStore();
 </script>
 
-<style scoped></style>
+<style scoped>
+    .title-image {
+        max-width: 75%;
+        max-height: 40vh;
+
+        min-height: 200px;
+    }
+</style>
