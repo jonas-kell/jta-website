@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import Overview from "./components/Overview.vue";
 import Calendar from "./components/Calendar.vue";
 import Price from "./components/Price.vue";
