@@ -1,6 +1,6 @@
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
+    line-height: 1.2;
     font-weight: 400;
 
     font-synthesis: none;
@@ -43,10 +43,16 @@ h1 {
     line-height: 1.1;
 }
 h2 {
+    padding-right: 1em;
+    padding-left: 1em;
+
     font-size: 1.4em;
     line-height: 1.1;
 }
 h3 {
+    padding-right: 1em;
+    padding-left: 1em;
+
     font-size: 1.2em;
     line-height: 1.1;
 }
@@ -91,7 +97,12 @@ h3 {
 
 .small-image {
     max-width: 60%;
-    max-height: 20vh;
+    max-height: 30vh;
 
     min-height: 90px;
+}
+
+.multiline-p {
+    line-height: 1.4;
+    max-width: 90%;
 }
