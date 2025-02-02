@@ -19,7 +19,7 @@
     <p class="multiline-p">
         Grundsätzlich ist die Miete der Anlage ohne Lieferung, Auf-/Abbau oder Betrieb. <br />
         Die buchenden Vereine sind selbst hierfür verantwortlich. <br />
-        Hierzu muss vorher die entsprechende Fortbildung/Schulung erfolg sein. <br />
+        Hierzu muss vorher die entsprechende Fortbildung/Schulung erfolgt sein. <br />
         Der TSV-Schwabmünchen hat ausgebildete Verantwortliche, die bei Bedarf engagiert werden können. <br />
         Dies geschieht unabhängig von der Anlagenmiete und unabhängig <br />
         von dem an den Bezirk Schwaben zu entrichtenden Mietbetrag.<br />

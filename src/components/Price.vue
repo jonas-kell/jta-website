@@ -12,7 +12,7 @@
 
     <p>Miete Zeitmessung pro Tag: &nbsp;&nbsp;&nbsp;&nbsp; 250€</p>
     <p>Miete Anzeigetafel pro Tag: &nbsp;&nbsp;&nbsp;&nbsp; 50€</p>
-    <p>Miete Geräte Messset pro Tag: &nbsp;&nbsp;&nbsp;&nbsp; 10€</p>
+    <p>Miete Geräte Mess-Set pro Tag: &nbsp;&nbsp;&nbsp;&nbsp; 10€</p>
 
     <h3>Externes Engagieren von Zeitnehmern gegenüber dem TSV-Schwabmünchen:</h3>
 
