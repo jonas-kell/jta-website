@@ -41,7 +41,18 @@ body,
 .app-dark {
     color-scheme: dark;
     color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
+    background: linear-gradient(120deg, #242424, #414141);
+    background-size: 300% 300%;
+    animation: gradientAnimation 50s infinite alternate ease-in-out;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
 }
 
 .app-light {
