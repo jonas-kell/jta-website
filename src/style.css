@@ -88,3 +88,10 @@ h3 {
 .spacer {
     flex-grow: 1;
 }
+
+.small-image {
+    max-width: 60%;
+    max-height: 20vh;
+
+    min-height: 90px;
+}
