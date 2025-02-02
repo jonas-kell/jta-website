@@ -1,7 +1,7 @@
 <template>
     <h1 v-if="appStore.standalone">Leichtathletik Zeitnahme Anlage Bezirk Schwaben</h1>
 
-    <img src="/Title-Image.jpg" class="title-image" />
+    <img src="/src/public/Title-Image.jpg" class="title-image" />
 
     <h2>Übersicht</h2>
     <p>
@@ -17,7 +17,7 @@
         <router-link to="contact">Kontakt</router-link>
     </p>
 
-    <img v-if="appStore.standalone" src="/Logo-Schwaben.png" class="small-image" />
+    <img v-if="appStore.standalone" src="/src/public/Logo-Schwaben.png" class="small-image" />
 </template>
 
 <script setup lang="ts">
