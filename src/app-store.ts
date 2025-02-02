@@ -50,6 +50,11 @@ export default defineStore("counter", () => {
                 dark: dark.value ? "true" : "false",
             };
 
+            // misuse this function and set the background with js programmatically
+            if (!dark.value) {
+                document.documentElement.style.background = "none";
+            }
+
             if (apply) {
                 // change of the internal state has happened. Update the url
                 router.push({
