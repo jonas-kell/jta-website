@@ -11,7 +11,7 @@
     /* Just set the dark background on root and if we require the light background, we remove the background style with js...  */
     background: linear-gradient(120deg, #242424, #414141);
     background-size: 400% 400%;
-    animation: gradientAnimation 50s infinite alternate ease-in-out;
+    animation: gradientAnimation 350s infinite alternate;
 }
 
 @keyframes gradientAnimation {
