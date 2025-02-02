@@ -15,7 +15,7 @@
     <p>Jonas Kell (TSV Schwabmünchen)</p>
 
     <h3>Zubuchung eines Anlagenbetreuers und/oder Zeitmessers:</h3>
-    <img src="/public/tsv-smue-experts.jpg" class="small-image" />
+    <img src="/tsv-smue-experts.jpg" class="small-image" />
 
     <p class="multiline-p" style="margin-top: 1em">
         Grundsätzlich ist die Miete der Anlage ohne Lieferung, Auf-/Abbau oder Betrieb.
