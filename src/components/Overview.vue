@@ -1,5 +1,5 @@
 <template>
-    <h1 v-if="appStore.standalone">Leichtathletik Zeitnahme Anlage Bezirk Schwaben</h1>
+    <h1 v-if="appStore.standalone">Leichtathletik Zeitmessanlage Bezirk Schwaben</h1>
 
     <img src="/src/public/Title-Image.jpg" class="title-image" />
 
