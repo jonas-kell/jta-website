@@ -10,7 +10,7 @@
     <p>Anleitungen und andere öffentliche Dokumente, die hilfreich für den Betrieb der Anlage sind:</p>
 
     <p>
-        <a href="/Anleitung-Zeitnahme-Bezirk-Schwaben-v0.4-vorlaufig.pdf" download>Anleitung Haupanlage (vorläufig)</a>
+        <a href="/Anleitung-Zeitnahme-Bezirk-Schwaben-v0.4-vorlaufig.pdf" download>Anleitung Hauptanlage (vorläufig)</a>
     </p>
     <p>
         <a href="/Anleitung-IDCam-Bezirk-Schwaben-v0.4-vorlaufig.pdf" download>Anleitung ID-Cam (vorläufig)</a>
