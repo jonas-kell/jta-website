@@ -26,6 +26,9 @@
             >Administrations und Debugging Schritte</a
         >
     </p>
+    <p>
+        <a href="/Fortbildungsplan-Zeitnahmeschulung.pdf" download>Handout/Plan Fortbildung 15.02.2025</a>
+    </p>
 </template>
 
 <script setup lang="ts">
