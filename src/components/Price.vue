@@ -16,6 +16,7 @@
 
     <h3>Externes Engagieren von Zeitnehmern - TSV-Schwabmünchen:</h3>
 
+    <p>Ersteinsatz Betreuung: &nbsp;&nbsp;&nbsp;&nbsp; <b>Übernahme durch Bezirk Schwaben</b></p>
     <p>Engagieren Zeitnehmer: &nbsp;&nbsp;&nbsp;&nbsp; 20€/h oder im Paket auf Anfrage</p>
     <p>Anlagentransport/Abholung: &nbsp;&nbsp;&nbsp;&nbsp; auf Anfrage</p>
     <p>Zeitnahme-Wohnmobil: &nbsp;&nbsp;&nbsp;&nbsp; auf Anfrage</p>

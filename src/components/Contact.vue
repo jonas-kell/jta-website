@@ -26,6 +26,12 @@
     <p class="multiline-p">die bei Bedarf zusätzlich engagiert werden können.</p>
     <p class="multiline-p">Dies geschieht unabhängig von der Anlagenmiete und unabhängig</p>
     <p class="multiline-p">von dem an den Bezirk Schwaben zu entrichtenden Mietbetrag.</p>
+    <p class="multiline-p">
+        Da bei der ersten Betriebnahme eine Beaufsichtigung durch Verantwortliche vom TSV-Schwabmünchen <b>dringend</b>
+    </p>
+    <p class="multiline-p">
+        empfohlen wird, <b>übernimmt</b> die Kosten diese zu engagieren für den <b>Ersteinsatz</b> der Bezirk Schwaben.
+    </p>
     <p class="multiline-p">Auch Transport/Zeitmess-Wohnmobil sind unabhängig von der Miete extra zu beantragen.</p>
     <p class="multiline-p">Bei Bedarf unbedingt bei Kontaktaufnahme ansprechen!!</p>
 
