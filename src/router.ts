@@ -4,6 +4,7 @@ import Calendar from "./components/Calendar.vue";
 import Price from "./components/Price.vue";
 import Download from "./components/Download.vue";
 import Contact from "./components/Contact.vue";
+import Invoice from "./components/Invoice.vue";
 import useAppStore from "./app-store";
 
 const routes = [
@@ -12,6 +13,7 @@ const routes = [
     { path: "/price", component: Price },
     { path: "/download", component: Download },
     { path: "/contact", component: Contact },
+    { path: "/invoice", component: Invoice },
     { path: "/:pathMatch(.*)*", redirect: "/" },
 ];
 
