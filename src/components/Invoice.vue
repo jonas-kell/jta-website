@@ -18,6 +18,13 @@
         <p>Endrechnung (sonst = Angebot): <input type="checkbox" v-model="isFinalStatement" /></p>
         <p>Rechnungsdatum: <input type="date" v-model="date" /></p>
         <p>RechnungsNr: <input type="text" v-model="reNr" /></p>
+
+        <h3>Rechnungsinhalte <button @click="addEntry">+</button></h3>
+        <p v-for="entry in entries" :key="entry.id">
+            <button @click="removeEntry(entry.id)">x</button> <input type="text" placeholder="Position" v-model="entry.topic" />
+            <input type="number" placeholder="Cost" v-model="entry.price" step="0.01" />
+            x <input type="number" placeholder="Amount" v-model="entry.amount" min="0" step="1" />
+        </p>
     </div>
 
     <button @click="generatePDF">Rechnung Generieren</button>
@@ -57,6 +64,44 @@
     });
     const date = ref(new Date().toISOString().split("T")[0]);
     const reNr = ref("");
+
+    type InvoiceEntry = {
+        id: number;
+        topic: string;
+        price: number;
+        amount: number;
+    };
+
+    const entries = ref([] as InvoiceEntry[]);
+    entries.value.push({
+        id: 0,
+        topic: "test",
+        amount: 0,
+        price: 1,
+    });
+
+    function removeEntry(id: number) {
+        entries.value = entries.value.filter((e) => e.id != id);
+    }
+    function addEntry() {
+        let newId = 0;
+        entries.value.forEach((e) => {
+            if (e.id >= newId) {
+                newId = e.id + 1;
+            }
+        });
+
+        entries.value.push({
+            id: newId,
+            topic: "",
+            amount: 1,
+            price: 0,
+        });
+    }
+
+    function formatPrice(num: number) {
+        return num.toFixed(2).replace(".", ",") + " €";
+    }
 
     function generatePDF() {
         const doc = new jsPDF();
@@ -123,17 +168,50 @@
         const mainExplanation = `Für den Einsatz am ${operationDateString} werden folgende Einzelleistungen ${orderType}:`;
         doc.text(mainExplanation, PAGE_MARGIN, MAIN_BODY_START_Y + LINE_SKIP * 2, { align: "left" });
 
-        // doc.table(
-        //     40,
-        //     40,
-        //     [
-        //         { test: "asdasdasd", test2: "asd" },
-        //         { test: "asdasdasd", test2: "asd" },
-        //         { test: "asdasdasd", test2: "asd" },
-        //     ],
-        //     ["test", "test2"],
-        //     {}
-        // );
+        const topicKey = "Kostenstelle";
+        const entryCostKey = "Satz";
+        const entryAmountKey = "Anzahl";
+        const subtotalKey = "Gesamt";
+        // main entries to the
+        const tableEntries = entries.value.map(
+            (
+                entry: InvoiceEntry
+            ): {
+                [key: string]: string;
+            } => {
+                return {
+                    [topicKey]: entry.topic,
+                    [entryCostKey]: formatPrice(entry.price),
+                    [entryAmountKey]: String(Math.round(entry.amount)),
+                    [subtotalKey]: formatPrice(entry.price * entry.amount),
+                };
+            }
+        );
+        const skipEntry = {
+            [topicKey]: "---------------------------------------------------------------",
+            [entryCostKey]: "----------------",
+            [entryAmountKey]: "----------------",
+            [subtotalKey]: "----------------",
+        };
+        const subtotal = entries.value.reduce((acc: number, e: InvoiceEntry) => {
+            return acc + e.price * e.amount;
+        }, 0);
+        const totalEntry = {
+            [topicKey]: "Gesamtsumme",
+            [entryCostKey]: "",
+            [entryAmountKey]: "",
+            [subtotalKey]: formatPrice(subtotal),
+        };
+        doc.table(
+            PAGE_MARGIN,
+            MAIN_BODY_START_Y + LINE_SKIP * 2.5,
+            [...tableEntries, skipEntry, totalEntry],
+            [topicKey, entryCostKey, entryAmountKey, subtotalKey],
+            {
+                autoSize: true,
+                padding: 2,
+            }
+        );
 
         // lower description and hints
         const LOWER_LINE_SEPARATION = 30;
