@@ -15,7 +15,7 @@
         <p>Tag des Einsatzes: <input type="date" v-model="dateOfOperation" /></p>
         <br />
         <p>Titel Rechnung: <input type="text" v-model="title" /></p>
-        <p>Angebot: <input type="checkbox" v-model="isFinalStatement" /></p>
+        <p>Endrechnung (sonst = Angebot): <input type="checkbox" v-model="isFinalStatement" /></p>
         <p>Rechnungsdatum: <input type="date" v-model="date" /></p>
         <p>RechnungsNr: <input type="text" v-model="reNr" /></p>
     </div>
