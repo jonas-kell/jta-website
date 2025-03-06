@@ -7,13 +7,17 @@
         <p>Eigene Stadt: <input type="text" v-model="ownCity" /></p>
         <p>Eigene Tel.: <input type="text" v-model="ownTel" /></p>
         <p>Eigene Mail: <input type="text" v-model="ownMail" /></p>
+        <p>Eigene IBAN: <input type="text" v-model="ownIBAN" /></p>
         <br />
         <p>Empfänger Name: <input type="text" v-model="recipientName" /></p>
         <p>Empfänger Verein: <input type="text" v-model="recipientOrganization" /></p>
         <p>Empfänger Adresse: <input type="text" v-model="recipientAddress" /></p>
+        <p>Tag des Einsatzes: <input type="date" v-model="dateOfOperation" /></p>
         <br />
         <p>Titel Rechnung: <input type="text" v-model="title" /></p>
         <p>Angebot: <input type="checkbox" v-model="isFinalStatement" /></p>
+        <p>Rechnungsdatum: <input type="date" v-model="date" /></p>
+        <p>RechnungsNr: <input type="text" v-model="reNr" /></p>
     </div>
 
     <button @click="generatePDF">Rechnung Generieren</button>
@@ -35,10 +39,12 @@
     const ownCity = ref(deobfuscate("EhwSGRoKeUlCXUtIR9ZESUJPRA=="));
     const ownTel = ref(deobfuscate("AR4TChsfHRkKGBwbHxsYGg=="));
     const ownMail = ref(deobfuscate("UE9DXkRLQkdPakhGXAdZSUJdS0hPRAROTw=="));
+    const ownIBAN = ref(deobfuscate("bm8aEgobGBoZChoaGhoKGxgaHwoYHBkaChsZ"));
 
     const recipientName = ref("");
     const recipientOrganization = ref("");
     const recipientAddress = ref("");
+    const dateOfOperation = ref(new Date().toISOString().split("T")[0]);
 
     const title = ref("Rechnung");
     const isFinalStatement = ref(true);
@@ -49,6 +55,8 @@
             title.value = "Vorläufiges Angebot";
         }
     });
+    const date = ref(new Date().toISOString().split("T")[0]);
+    const reNr = ref("");
 
     function generatePDF() {
         const doc = new jsPDF();
@@ -88,14 +96,32 @@
         doc.addImage(imageData, "JPG", 20, 10, imgWidth, imgWidth * imgRatio, "Logo", "NONE", 0);
 
         // Main body
+        const [year, month, day] = date.value.split("-");
+        const dateString = `${day}.${month}.${year}`;
+        let descriptionStr = "";
+        if (reNr.value == "") {
+            descriptionStr = dateString;
+        } else {
+            descriptionStr = "ReNr.: " + reNr.value + "  -  " + dateString;
+        }
         const MAIN_BODY_START_Y = addressTopDif + 9 * LINE_SKIP;
         doc.setFont(TEXT_FONT, "bold");
         doc.setFontSize(TEXT_SIZE * 2);
         doc.text(title.value, PAGE_WIDTH - PAGE_MARGIN, MAIN_BODY_START_Y, { align: "right" });
         doc.setFontSize(TEXT_SIZE);
         doc.setFont(TEXT_FONT, "italic");
-        doc.text("date", PAGE_WIDTH - PAGE_MARGIN, MAIN_BODY_START_Y + LINE_SKIP * 1, { align: "right" });
+        doc.text(descriptionStr, PAGE_WIDTH - PAGE_MARGIN, MAIN_BODY_START_Y + LINE_SKIP * 1, { align: "right" });
         doc.setFont(TEXT_FONT, "normal");
+        const [operationYear, operationMonth, operationDay] = dateOfOperation.value.split("-");
+        const operationDateString = `${operationDay}.${operationMonth}.${operationYear}`;
+        let orderType = "";
+        if (isFinalStatement.value) {
+            orderType = "berechnet";
+        } else {
+            orderType = "gebucht";
+        }
+        const mainExplanation = `Für den Einsatz am ${operationDateString} werden folgende Einzelleistungen ${orderType}:`;
+        doc.text(mainExplanation, PAGE_MARGIN, MAIN_BODY_START_Y + LINE_SKIP * 2, { align: "left" });
 
         // doc.table(
         //     40,
@@ -110,9 +136,42 @@
         // );
 
         // lower description and hints
-        doc.line(10, PAGE_HEIGHT - 40, PAGE_WIDTH - 10, PAGE_HEIGHT - 40);
+        const LOWER_LINE_SEPARATION = 30;
+        doc.setFont(TEXT_FONT, "normal");
+        if (isFinalStatement.value) {
+            const payToExplanation = `Bitte begleichen Sie die Rechnung vollst. auf das Konto:`;
+            doc.text(payToExplanation, PAGE_MARGIN, PAGE_HEIGHT - LOWER_LINE_SEPARATION - LINE_SKIP * 1.5, { align: "left" });
+            doc.setFont(TEXT_FONT, "bold");
+            doc.text(ownIBAN.value, PAGE_WIDTH - PAGE_MARGIN, PAGE_HEIGHT - LOWER_LINE_SEPARATION - LINE_SKIP * 1.5, {
+                align: "right",
+            });
+            doc.setFont(TEXT_FONT, "normal");
+        }
+        doc.setFont(TEXT_FONT, "italic");
+        doc.text("Nachfolgende Hinweise zur Beachtung:", PAGE_MARGIN, PAGE_HEIGHT - LOWER_LINE_SEPARATION - LINE_SKIP * 0.5, {
+            align: "left",
+        });
+        doc.setFont(TEXT_FONT, "normal");
+        doc.line(10, PAGE_HEIGHT - LOWER_LINE_SEPARATION, PAGE_WIDTH - 10, PAGE_HEIGHT - LOWER_LINE_SEPARATION);
+        doc.text(
+            "Die Rechnungsstellung kann aus rechtlichen Gründen aufgeteilt erfolgen.",
+            PAGE_MARGIN,
+            PAGE_HEIGHT - LOWER_LINE_SEPARATION + LINE_SKIP * 1.0,
+            {
+                align: "left",
+            }
+        );
+        doc.text(
+            "Diese Rechnung enthält keine Ausweisung der Umsatz-/Mehrwertsteuer aufgrund von Anwendung der Kleinunternehmer Regelung §19 UStG.",
+            PAGE_MARGIN,
+            PAGE_HEIGHT - LOWER_LINE_SEPARATION + LINE_SKIP * 2.0,
+            {
+                align: "left",
+                maxWidth: PAGE_WIDTH - 2 * PAGE_MARGIN,
+            }
+        );
 
-        // store
+        // store/download file
         let filename;
         if (isFinalStatement.value) {
             filename = "invoice.pdf";
