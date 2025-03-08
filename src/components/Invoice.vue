@@ -37,6 +37,15 @@
     import { jsPDF } from "jspdf";
     import imageData from "./../public/Logo-Schwaben.png?base64";
     import { ref, watch } from "vue";
+    import {
+        costMainSystem,
+        costDisplay,
+        costMeasurementDevices,
+        costTimingOfficiantsPerH,
+        costTransport,
+        costTimingCaravan,
+        costSupportPerH,
+    } from "./../costs.ts";
 
     const OBFUSCATION_KEY = 42; // Any number (should be consistent)
     // the addresses and semi-personal default-data are obfuscated in the source to not get it web-scraped (easily)
@@ -74,10 +83,46 @@
 
     const entries = ref([] as InvoiceEntry[]);
     entries.value.push({
-        id: 0,
-        topic: "test",
+        id: 1,
+        topic: "Mietkosten Zeitnahmeanlage",
+        amount: 1,
+        price: costMainSystem,
+    });
+    entries.value.push({
+        id: 2,
+        topic: "Mietkosten Anzeigetafel",
+        amount: 1,
+        price: costDisplay,
+    });
+    entries.value.push({
+        id: 3,
+        topic: "Mietkosten Geräte-Mess-Set",
+        amount: 1,
+        price: costMeasurementDevices,
+    });
+    entries.value.push({
+        id: 4,
+        topic: "Zeitnahme-Verantwortlicher pro h",
         amount: 0,
-        price: 1,
+        price: costTimingOfficiantsPerH,
+    });
+    entries.value.push({
+        id: 5,
+        topic: "Transportkosten/Anfahrt",
+        amount: 0,
+        price: costTransport,
+    });
+    entries.value.push({
+        id: 6,
+        topic: "Zeitnahme-Wohnmobil",
+        amount: 0,
+        price: costTimingCaravan,
+    });
+    entries.value.push({
+        id: 7,
+        topic: "Unterstützung/Problemlösung pro h",
+        amount: 0,
+        price: costSupportPerH,
     });
 
     function removeEntry(id: number) {
