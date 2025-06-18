@@ -1,5 +1,7 @@
 # Just in Time Association Website
 
+![image](./src/public/just-in-time-association-logo.svg)
+
 Standalone Website of the **Just in Time Association** and at the same time integratable page that describes the details on the timing system owned and operated by the track and field section of the Bavarian region Schwaben.
 
 ## Development
