@@ -102,6 +102,13 @@ body,
     min-height: 90px;
 }
 
+.x-small-image {
+    max-width: 35%;
+    max-height: 18vh;
+
+    min-height: 90px;
+}
+
 p {
     margin: 1em;
     margin-left: 2em;
