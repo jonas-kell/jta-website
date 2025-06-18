@@ -6,6 +6,7 @@ import Download from "./components/Download.vue";
 import Contact from "./components/Contact.vue";
 import Invoice from "./components/Invoice.vue";
 import useAppStore from "./app-store";
+import Imprint from "./components/Imprint.vue";
 
 const routes = [
     { path: "/", component: Overview },
@@ -14,6 +15,7 @@ const routes = [
     { path: "/download", component: Download },
     { path: "/contact", component: Contact },
     { path: "/invoice", component: Invoice },
+    { path: "/imprint", component: Imprint },
     { path: "/:pathMatch(.*)*", redirect: "/" },
 ];
 

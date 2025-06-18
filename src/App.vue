@@ -8,7 +8,7 @@
             <div class="spacer"></div>
             <div class="main-spacer">&nbsp;</div>
             <div class="privacy-link-container">
-                <a href="https://blv-sport.de/impressum">Impressum / Datenschutz</a>
+                <router-link to="/imprint">Impressum / Datenschutz</router-link>
             </div>
             <div class="main-spacer">&nbsp;</div>
         </template>
