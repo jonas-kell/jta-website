@@ -2,6 +2,7 @@
     <h2>Rechnungs-Generator</h2>
 
     <div class="form-body">
+        <p>Logo: {{ logoJTA ? "JTA" : "BLSV Schwaben" }} <input type="checkbox" v-model="logoJTA" /></p>
         <p>Eigener Name: <input type="text" v-model="ownName" /></p>
         <p>Eigene Straße: <input type="text" v-model="ownStreet" /></p>
         <p>Eigene Stadt: <input type="text" v-model="ownCity" /></p>
@@ -18,6 +19,7 @@
         <p>Endrechnung (sonst = Angebot): <input type="checkbox" v-model="isFinalStatement" /></p>
         <p>Rechnungsdatum: <input type="date" v-model="date" /></p>
         <p>RechnungsNr: <input type="text" v-model="reNr" /></p>
+        <p>Überweisen Text: <input type="text" v-model="payToExplanation" /></p>
 
         <h3>Rechnungsinhalte <button @click="addEntry">+</button></h3>
         <p v-for="entry in entries" :key="entry.id">
@@ -36,6 +38,7 @@
     appStore.dark; // just that the app store works and doesn't give unused errors
     import { jsPDF } from "jspdf";
     import imageData from "./../public/Logo-Schwaben.png?base64";
+    import imageDataJTA from "./../public/just-in-time-association-logo.png?base64";
     import { ref, watch } from "vue";
     import {
         costMainSystem,
@@ -50,6 +53,7 @@
     const OBFUSCATION_KEY = 42; // Any number (should be consistent)
     // the addresses and semi-personal default-data are obfuscated in the source to not get it web-scraped (easily)
 
+    const logoJTA = ref(true);
     const ownName = ref(deobfuscate("YEVES1kKYU9GRg=="));
     const ownStreet = ref(deobfuscate("eUlCS19dQ09ZWV5YBAobGA=="));
     const ownCity = ref(deobfuscate("EhwSGRoKeUlCXUtIR9ZESUJPRA=="));
@@ -72,6 +76,7 @@
         }
     });
     const date = ref(new Date().toISOString().split("T")[0]);
+    const payToExplanation = ref(`Bitte begleichen Sie die Rechnung vollst. auf das Konto:`);
     const reNr = ref("");
 
     type InvoiceEntry = {
@@ -181,9 +186,13 @@
         doc.text(recipientAddress.value, PAGE_MARGIN, addressTopDif + 7 * LINE_SKIP, {});
 
         // logo top left
-        const imgRatio = 135 / 231;
-        const imgWidth = 45;
-        doc.addImage(imageData, "JPG", 20, 10, imgWidth, imgWidth * imgRatio, "Logo", "NONE", 0);
+        let imgRatio = 135 / 231; // Schwaben
+        let imgWidth = 50;
+        if (logoJTA.value) {
+            imgRatio = 1 / 1; // JTA
+            imgWidth = 30;
+        }
+        doc.addImage(logoJTA.value ? imageDataJTA : imageData, "PNG", 20, 10, imgWidth, imgWidth * imgRatio, "Logo", "NONE", 0);
 
         // Main body
         const [year, month, day] = date.value.split("-");
@@ -262,8 +271,9 @@
         const LOWER_LINE_SEPARATION = 30;
         doc.setFont(TEXT_FONT, "normal");
         if (isFinalStatement.value) {
-            const payToExplanation = `Bitte begleichen Sie die Rechnung vollst. auf das Konto:`;
-            doc.text(payToExplanation, PAGE_MARGIN, PAGE_HEIGHT - LOWER_LINE_SEPARATION - LINE_SKIP * 1.5, { align: "left" });
+            doc.text(payToExplanation.value, PAGE_MARGIN, PAGE_HEIGHT - LOWER_LINE_SEPARATION - LINE_SKIP * 1.5, {
+                align: "left",
+            });
             doc.setFont(TEXT_FONT, "bold");
             doc.text(ownIBAN.value, PAGE_WIDTH - PAGE_MARGIN, PAGE_HEIGHT - LOWER_LINE_SEPARATION - LINE_SKIP * 1.5, {
                 align: "right",
