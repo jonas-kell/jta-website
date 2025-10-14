@@ -3,12 +3,10 @@
     <h2 v-if="appStore.standalone">Leichtathletik Zeitmessanlage im Bezirk Schwaben</h2>
     <br />
 
-    <img src="/src/public/Title-Image.jpg" class="title-image" />
+    <img src="/src/public/Title-Image-JTA.jpg" class="title-image" v-if="appStore.standalone" />
+    <img src="/src/public/Title-Image-BLV.jpg" class="title-image" v-else />
 
     <h2>Übersicht</h2>
-    <p>
-        <a href="https://www.viele-schaffen-mehr.de/projekte/zeitmessanlage-schwaben" target="_blank">Spendencampagne</a>
-    </p>
     <p>
         <router-link to="calendar">Einsätze / Kalender</router-link>
     </p>
@@ -20,6 +18,9 @@
     </p>
     <p>
         <router-link to="contact">Kontakt</router-link>
+    </p>
+    <p>
+        <a href="https://www.viele-schaffen-mehr.de/projekte/zeitmessanlage-schwaben" target="_blank">Spendencampagne</a> (2025)
     </p>
 
     <br />
