@@ -1,6 +1,6 @@
 <template>
     <h1 v-if="appStore.standalone">Just in Time Association - JTA</h1>
-    <h2 v-if="appStore.standalone">Leichtathletik Zeitmessanlage im Bezirk Schwaben</h2>
+    <h2 v-if="appStore.standalone">Leichtathletik Zeitmessung in Schwaben</h2>
     <br />
 
     <img src="/src/public/Title-Image-JTA.jpg" class="title-image" v-if="appStore.standalone" />

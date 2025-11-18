@@ -16,9 +16,31 @@
 </template>
 
 <script setup lang="ts">
+    import { onMounted, watch } from "vue";
     import useAppStore from "./app-store";
 
     const appStore = useAppStore();
+
+    // reactively apply background to <html>
+    watch(
+        () => appStore.dark,
+        () => {
+            console.log("Theme change");
+            setHTMLelementColor();
+        }
+    );
+    onMounted(() => {
+        setHTMLelementColor();
+    });
+    function setHTMLelementColor() {
+        if (appStore.dark) {
+            // I can not target this with css....
+            document.documentElement.style.backgroundColor = `#242424`;
+        } else {
+            document.documentElement.style.backgroundColor = "";
+            document.documentElement.style.background = "none";
+        }
+    }
 </script>
 
 <style scoped>
