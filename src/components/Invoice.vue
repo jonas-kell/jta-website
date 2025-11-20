@@ -22,7 +22,7 @@
         <br />
         <p>Titel Rechnung: <input type="text" v-model="title" /></p>
         <p>Rechnungsdatum: <input type="date" v-model="date" /></p>
-        <p>RechnungsNr: <input type="text" v-model="reNr" /> (Hab hier immer 9 random Ziffern gemacht)</p>
+        <p>RechnungsNr: <input type="text" v-model="reNr" /> (Nummer MUSS fortlaufend sein.)</p>
         <p>Überweisen Text: <input type="text" v-model="payToExplanation" /></p>
 
         <h3>Rechnungsinhalte <button @click="addEntry">+</button></h3>
@@ -103,6 +103,7 @@
                 title.value = "Vorläufiges Angebot";
                 payToExplanation.value = `Preise vorläufig; Anpassungen möglich.`;
             }
+            reNr.value = "JTA-" + String(new Date().getFullYear()) + "-000";
 
             entries.value = [];
             entries.value.push({
@@ -136,6 +137,7 @@
             } else {
                 payToExplanation.value = `Preise vorläufig; Anpassungen möglich.`;
             }
+            reNr.value = "";
 
             entries.value = [];
             entries.value.push({

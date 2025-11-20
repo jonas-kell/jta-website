@@ -62,9 +62,11 @@
         und zu dem zuvor benannten Zweck einverstanden.
     </p>
     <br />
-    Erstellt mit <a href="https://impressum-generator.de" rel="dofollow">Impressum-Generator.de</a>, dem Tool für Impressum und
-    <a href="https://impressum-generator.de/datenschutz-generator" rel="dofollow">Datenschutz-Erklärung</a>. Nach einer Vorlage
-    der <a href="https://www.kanzlei-hasselbach.de/" rel="dofollow">Kanzlei Hasselbach</a>.
+    Erstellt mit <a href="https://impressum-generator.de" rel="dofollow">Impressum-Generator.de</a>
+    dem Tool für Impressum und
+    <a href="https://impressum-generator.de/datenschutz-generator" rel="dofollow">Datenschutz-Erklärung</a>
+    Nach einer Vorlage der
+    <a href="https://www.kanzlei-hasselbach.de/" rel="dofollow">Kanzlei Hasselbach</a>
 </template>
 
 <script setup lang="ts"></script>
