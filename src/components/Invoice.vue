@@ -2,7 +2,12 @@
     <h2>Rechnungs-Generator</h2>
 
     <div class="form-body">
-        <p>Logo: {{ logoJTA ? "JTA" : "BLSV Schwaben" }} <input type="checkbox" v-model="logoJTA" /></p>
+        <p>
+            Variante: <input type="checkbox" v-model="variantIsJTA" />
+            {{ variantIsJTA ? "JTA" : "BLSV Schwaben (Vorlage für Externe Rechnung)" }}
+        </p>
+        <p>Endrechnung (sonst = Angebot): <input type="checkbox" v-model="isFinalStatement" /></p>
+        <br />
         <p>Eigener Name: <input type="text" v-model="ownName" /></p>
         <p>Eigene Straße: <input type="text" v-model="ownStreet" /></p>
         <p>Eigene Stadt: <input type="text" v-model="ownCity" /></p>
@@ -16,9 +21,8 @@
         <p>Tag des Einsatzes: <input type="date" v-model="dateOfOperation" /></p>
         <br />
         <p>Titel Rechnung: <input type="text" v-model="title" /></p>
-        <p>Endrechnung (sonst = Angebot): <input type="checkbox" v-model="isFinalStatement" /></p>
         <p>Rechnungsdatum: <input type="date" v-model="date" /></p>
-        <p>RechnungsNr: <input type="text" v-model="reNr" /></p>
+        <p>RechnungsNr: <input type="text" v-model="reNr" /> (Hab hier immer 9 random Ziffern gemacht)</p>
         <p>Überweisen Text: <input type="text" v-model="payToExplanation" /></p>
 
         <h3>Rechnungsinhalte <button @click="addEntry">+</button></h3>
@@ -44,39 +48,35 @@
         costMainSystem,
         costDisplay,
         costMeasurementDevices,
-        costTimingOfficiantsPerH,
-        costTransport,
-        costTimingCaravan,
-        costSupportPerH,
+        costTimingOfficiantsDaily,
+        costTravelTransport,
+        costTimingTrailer,
+        costWindmeterTechnical,
     } from "./../costs.ts";
 
     const OBFUSCATION_KEY = 42; // Any number (should be consistent)
     // the addresses and semi-personal default-data are obfuscated in the source to not get it web-scraped (easily)
 
-    const logoJTA = ref(true);
-    const ownName = ref(deobfuscate("YEVES1kKYU9GRg=="));
-    const ownStreet = ref(deobfuscate("eUlCS19dQ09ZWV5YBAobGA=="));
-    const ownCity = ref(deobfuscate("EhwSGRoKeUlCXUtIR9ZESUJPRA=="));
-    const ownTel = ref(deobfuscate("AR4TChsfHRkKGBwbHxsYGg=="));
-    const ownMail = ref(deobfuscate("UE9DXkRLQkdPakhGXAdZSUJdS0hPRAROTw=="));
-    const ownIBAN = ref(deobfuscate("bm8aEgobGBoZChoaGhoKGxgaHwoYHBkaChsZ"));
+    const variantIsJTA = ref(true);
+    const ownName = ref("");
+    const ownStreet = ref("");
+    const ownCity = ref("");
+    const ownTel = ref("");
+    const ownMail = ref("");
+    const ownIBAN = ref("");
 
     const recipientName = ref("");
     const recipientOrganization = ref("");
     const recipientAddress = ref("");
     const dateOfOperation = ref(new Date().toISOString().split("T")[0]);
 
-    const title = ref("Rechnung");
+    const title = ref("");
     const isFinalStatement = ref(true);
     watch(isFinalStatement, () => {
-        if (isFinalStatement.value) {
-            title.value = "Rechnung";
-        } else {
-            title.value = "Vorläufiges Angebot";
-        }
+        initializeDetails();
     });
     const date = ref(new Date().toISOString().split("T")[0]);
-    const payToExplanation = ref(`Bitte begleichen Sie die Rechnung vollst. auf das Konto:`);
+    const payToExplanation = ref("");
     const reNr = ref("");
 
     type InvoiceEntry = {
@@ -87,48 +87,87 @@
     };
 
     const entries = ref([] as InvoiceEntry[]);
-    entries.value.push({
-        id: 1,
-        topic: "Mietkosten Zeitnahmeanlage",
-        amount: 1,
-        price: costMainSystem,
+
+    function initializeDetails() {
+        if (variantIsJTA.value) {
+            ownName.value = deobfuscate("YF9ZXgpDRAp+Q0dPCmtZWUVJQ0teQ0VE");
+            ownStreet.value = deobfuscate("eUlCS19dQ09ZWV5YBAobGA==");
+            ownCity.value = deobfuscate("EhwSGRoKeUlCXUtIR9ZESUJPRA==");
+            ownTel.value = deobfuscate("AR4TChsfHRkKGBwbHxsYGg==");
+            ownMail.value = deobfuscate("SUVEXktJXmpAX1leB0NEB15DR08HS1lZRUlDS15DRUQETk8=");
+            ownIBAN.value = deobfuscate("bm8aEgobGBoZChoaGhoKGxgaHwoYHBkaChsZ");
+            if (isFinalStatement.value) {
+                title.value = "Rechnung";
+                payToExplanation.value = `Bitte begleichen Sie die Rechnung vollst. auf das Konto:`;
+            } else {
+                title.value = "Vorläufiges Angebot";
+                payToExplanation.value = `Preise vorläufig; Anpassungen möglich.`;
+            }
+
+            entries.value = [];
+            entries.value.push({
+                id: 1,
+                topic: "Zeitnahme Verantwortliche",
+                amount: 1,
+                price: costTimingOfficiantsDaily,
+            });
+            entries.value.push({
+                id: 2,
+                topic: "Bereitstellung Anlage mit Hänger",
+                amount: 1,
+                price: costTimingTrailer,
+            });
+            entries.value.push({
+                id: 3,
+                topic: "Anfahrt",
+                amount: 0,
+                price: costTravelTransport,
+            });
+        } else {
+            ownName.value = deobfuscate("aGZ8CmhPUENYQQp5SUJdS0hPRA==");
+            ownStreet.value = "----------";
+            ownCity.value = "----------";
+            ownTel.value = "----------";
+            ownMail.value = deobfuscate("UE9DXkRLQkdPakhGXAdZSUJdS0hPRAROTw==");
+            ownIBAN.value = "Keine Rechnung";
+            title.value = "Leistungsübersicht vor Rechnungsstellung";
+            if (isFinalStatement.value) {
+                payToExplanation.value = `Auflistung zur Übersicht!`;
+            } else {
+                payToExplanation.value = `Preise vorläufig; Anpassungen möglich.`;
+            }
+
+            entries.value = [];
+            entries.value.push({
+                id: 1,
+                topic: "Mietkosten Zeitnahmeanlage",
+                amount: 1,
+                price: costMainSystem,
+            });
+            entries.value.push({
+                id: 2,
+                topic: "Mietkosten Anzeigetafel",
+                amount: 1,
+                price: costDisplay,
+            });
+            entries.value.push({
+                id: 3,
+                topic: "Mietkosten Geräte-Mess-Set",
+                amount: 1,
+                price: costMeasurementDevices,
+            });
+            entries.value.push({
+                id: 4,
+                topic: "Mietkosten Windmesser f. techn. Diszip.",
+                amount: 1,
+                price: costWindmeterTechnical,
+            });
+        }
+    }
+    watch(variantIsJTA, () => {
+        initializeDetails();
     });
-    entries.value.push({
-        id: 2,
-        topic: "Mietkosten Anzeigetafel",
-        amount: 1,
-        price: costDisplay,
-    });
-    entries.value.push({
-        id: 3,
-        topic: "Mietkosten Geräte-Mess-Set",
-        amount: 1,
-        price: costMeasurementDevices,
-    });
-    entries.value.push({
-        id: 4,
-        topic: "Zeitnahme-Verantwortlicher pro h",
-        amount: 0,
-        price: costTimingOfficiantsPerH,
-    });
-    entries.value.push({
-        id: 5,
-        topic: "Transportkosten/Anfahrt",
-        amount: 0,
-        price: costTransport,
-    });
-    entries.value.push({
-        id: 6,
-        topic: "Zeitnahme-Wohnmobil",
-        amount: 0,
-        price: costTimingCaravan,
-    });
-    entries.value.push({
-        id: 7,
-        topic: "Unterstützung/Problemlösung pro h",
-        amount: 0,
-        price: costSupportPerH,
-    });
+    initializeDetails();
 
     function removeEntry(id: number) {
         entries.value = entries.value.filter((e) => e.id != id);
@@ -188,11 +227,21 @@
         // logo top left
         let imgRatio = 135 / 231; // Schwaben
         let imgWidth = 50;
-        if (logoJTA.value) {
+        if (variantIsJTA.value) {
             imgRatio = 1 / 1; // JTA
             imgWidth = 30;
         }
-        doc.addImage(logoJTA.value ? imageDataJTA : imageData, "PNG", 20, 10, imgWidth, imgWidth * imgRatio, "Logo", "NONE", 0);
+        doc.addImage(
+            variantIsJTA.value ? imageDataJTA : imageData,
+            "PNG",
+            20,
+            10,
+            imgWidth,
+            imgWidth * imgRatio,
+            "Logo",
+            "NONE",
+            0
+        );
 
         // Main body
         const [year, month, day] = date.value.split("-");
@@ -270,10 +319,10 @@
         // lower description and hints
         const LOWER_LINE_SEPARATION = 30;
         doc.setFont(TEXT_FONT, "normal");
+        doc.text(payToExplanation.value, PAGE_MARGIN, PAGE_HEIGHT - LOWER_LINE_SEPARATION - LINE_SKIP * 1.5, {
+            align: "left",
+        });
         if (isFinalStatement.value) {
-            doc.text(payToExplanation.value, PAGE_MARGIN, PAGE_HEIGHT - LOWER_LINE_SEPARATION - LINE_SKIP * 1.5, {
-                align: "left",
-            });
             doc.setFont(TEXT_FONT, "bold");
             doc.text(ownIBAN.value, PAGE_WIDTH - PAGE_MARGIN, PAGE_HEIGHT - LOWER_LINE_SEPARATION - LINE_SKIP * 1.5, {
                 align: "right",
@@ -294,15 +343,16 @@
                 align: "left",
             }
         );
-        doc.text(
-            "Diese Rechnung enthält keine Ausweisung der Umsatz-/Mehrwertsteuer aufgrund von Anwendung der Kleinunternehmer Regelung §19 UStG.",
-            PAGE_MARGIN,
-            PAGE_HEIGHT - LOWER_LINE_SEPARATION + LINE_SKIP * 2.0,
-            {
-                align: "left",
-                maxWidth: PAGE_WIDTH - 2 * PAGE_MARGIN,
-            }
-        );
+        let lowerNoticeTextVat =
+            "Diese Rechnung enthält keine Ausweisung der Umsatz-/Mehrwertsteuer aufgrund von Anwendung der Kleinunternehmer Regelung §19 UStG.";
+        if (!variantIsJTA.value) {
+            lowerNoticeTextVat =
+                "Die aufgeführten Preise sind vorläufig. Je nach Unternehmensform und geltendem Steuersatz können zusätzliche Steuern hinzukommen oder bereits in den angegebenen Beträgen enthalten sein.";
+        }
+        doc.text(lowerNoticeTextVat, PAGE_MARGIN, PAGE_HEIGHT - LOWER_LINE_SEPARATION + LINE_SKIP * 2.0, {
+            align: "left",
+            maxWidth: PAGE_WIDTH - 2 * PAGE_MARGIN,
+        });
 
         // store/download file
         let filename;

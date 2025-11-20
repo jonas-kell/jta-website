@@ -1,7 +1,8 @@
-export const costMainSystem = 250;
+export const costMainSystem = 150;
 export const costDisplay = 50;
 export const costMeasurementDevices = 10;
-export const costTimingOfficiantsPerH = 20;
-export const costTransport = 30;
-export const costTimingCaravan = 20;
-export const costSupportPerH = 10;
+export const costWindmeterTechnical = 10;
+
+export const costTimingOfficiantsDaily = 180;
+export const costTravelTransport = 0.3;
+export const costTimingTrailer = 20;

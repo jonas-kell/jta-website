@@ -8,8 +8,8 @@
     <p>Anfragen für die Miete und oder Reservierung der Anlage an:</p>
 
     <p>
-        <a v-if="!appStore.standalone" href="mailto:zeitnahme@blv-schwaben.de">zeitnahme@blv-schwaben.de</a>
         <a v-if="appStore.standalone" href="mailto:contact@just-in-time-association.de">contact@just-in-time-association.de</a>
+        <a v-else href="mailto:zeitnahme@blv-schwaben.de">zeitnahme@blv-schwaben.de</a>
     </p>
 
     <h3>Verantwortlicher Zeitmessung:</h3>
@@ -17,6 +17,8 @@
 
     <h3>Zubuchung eines Anlagenbetreuers und/oder Zeitmessers:</h3>
     <img src="/src/public/tsv-smue-experts.jpg" class="small-image" />
+
+    <p><b>Buchung des Rundum-Sorglos-Pakets der Just in Time Association wird wärmstens empfohlen!</b></p>
 
     <p class="multiline-p" style="margin-top: 1em">
         Grundsätzlich ist die Miete der Anlage ohne Lieferung, Auf-/Abbau oder Betrieb.
@@ -27,18 +29,12 @@
     <p class="multiline-p">die bei Bedarf zusätzlich engagiert werden können.</p>
     <p class="multiline-p">Dies geschieht unabhängig von der Anlagenmiete und unabhängig</p>
     <p class="multiline-p">von dem (an den Bezirk Schwaben) zu entrichtenden Mietbetrag.</p>
-    <p class="multiline-p">
-        Da bei der ersten Betriebnahme eine Beaufsichtigung durch Verantwortliche der Just in Time Association <b>dringend</b>
-    </p>
-    <p class="multiline-p">
-        empfohlen wird, <b>übernimmt</b> die Kosten diese zu engagieren für den <b>Ersteinsatz</b> der Bezirk Schwaben.
-    </p>
     <p class="multiline-p">Auch der Transport ist unabhängig von der Miete extra zu beantragen/zu organisieren.</p>
     <p class="multiline-p">Bei Bedarf unbedingt bei Kontaktaufnahme ansprechen!!</p>
 
     <p>
-        <a v-if="!appStore.standalone" href="mailto:zeitnahme@blv-schwaben.de">zeitnahme@blv-schwaben.de</a>
         <a v-if="appStore.standalone" href="mailto:contact@just-in-time-association.de">contact@just-in-time-association.de</a>
+        <a v-else href="mailto:zeitnahme@blv-schwaben.de">zeitnahme@blv-schwaben.de</a>
     </p>
 
     <p>!! Beachte Transportanforderungen für Videowall, siehe <router-link to="download">Downloads</router-link> !!</p>
