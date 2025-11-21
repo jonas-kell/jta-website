@@ -212,7 +212,7 @@
 
         // address header
         doc.setFontSize(TEXT_SIZE);
-        const rightOffsetAddress = 75;
+        const rightOffsetAddress = 87;
         const addressTopDif = 15;
         doc.setFont(TEXT_FONT, "bold");
         doc.text(ownName.value, PAGE_WIDTH - rightOffsetAddress, addressTopDif + 0 * LINE_SKIP, {});
