@@ -15,9 +15,11 @@
         <p>Eigene Mail: <input type="text" v-model="ownMail" /></p>
         <p>Eigene IBAN: <input type="text" v-model="ownIBAN" /></p>
         <br />
-        <p>Empfänger Name: <input type="text" v-model="recipientName" /></p>
         <p>Empfänger Verein: <input type="text" v-model="recipientOrganization" /></p>
+        <p>Empfänger Name: <input type="text" v-model="recipientName" /></p>
         <p>Empfänger Adresse: <input type="text" v-model="recipientAddress" /></p>
+        <p>Empfänger Adresse 2: <input type="text" v-model="recipientAddress2" /></p>
+        <p>Empfänger Email: <input type="text" v-model="recipientEmail" /></p>
         <p>Tag des Einsatzes: <input type="date" v-model="dateOfOperation" /></p>
         <br />
         <p>Titel Rechnung: <input type="text" v-model="title" /></p>
@@ -65,9 +67,11 @@
     const ownMail = ref("");
     const ownIBAN = ref("");
 
-    const recipientName = ref("");
     const recipientOrganization = ref("");
+    const recipientName = ref("");
     const recipientAddress = ref("");
+    const recipientAddress2 = ref("");
+    const recipientEmail = ref("");
     const dateOfOperation = ref(new Date().toISOString().split("T")[0]);
 
     const title = ref("");
@@ -221,10 +225,14 @@
         doc.setFont(TEXT_FONT, "normal");
 
         doc.setFont(TEXT_FONT, "bold");
-        doc.text(recipientName.value, PAGE_MARGIN, addressTopDif + 5 * LINE_SKIP, {});
+        doc.text(recipientOrganization.value, PAGE_MARGIN, addressTopDif + 5 * LINE_SKIP, {});
         doc.setFont(TEXT_FONT, "normal");
-        doc.text(recipientOrganization.value, PAGE_MARGIN, addressTopDif + 6 * LINE_SKIP, {});
+        doc.text(recipientName.value, PAGE_MARGIN, addressTopDif + 6 * LINE_SKIP, {});
         doc.text(recipientAddress.value, PAGE_MARGIN, addressTopDif + 7 * LINE_SKIP, {});
+        doc.text(recipientAddress2.value, PAGE_MARGIN, addressTopDif + 8 * LINE_SKIP, {});
+        doc.setFont(TEXT_FONT, "italic");
+        doc.text(recipientEmail.value, PAGE_MARGIN, addressTopDif + 9 * LINE_SKIP, {});
+        doc.setFont(TEXT_FONT, "normal");
 
         // logo top left
         let imgRatio = 135 / 231; // Schwaben
@@ -254,7 +262,7 @@
         } else {
             descriptionStr = "ReNr.: " + reNr.value + "  -  " + dateString;
         }
-        const MAIN_BODY_START_Y = addressTopDif + 9 * LINE_SKIP;
+        const MAIN_BODY_START_Y = addressTopDif + 11 * LINE_SKIP;
         doc.setFont(TEXT_FONT, "bold");
         doc.setFontSize(TEXT_SIZE * 2);
         doc.text(title.value, PAGE_WIDTH - PAGE_MARGIN, MAIN_BODY_START_Y, { align: "right" });
