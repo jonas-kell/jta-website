@@ -6,20 +6,20 @@
     <p>
         Just in Time Association<br />
         <br />
-        Schauwiesstraße 12 <br />
-        86830 Schwabmünchen <br />
+        {{ deobfuscate(STREET_OBVUSCATED) }} <br />
+        {{ deobfuscate(CITY_OBVUSCATED) }} <br />
     </p>
     <p>
         <strong>Vertreten durch: </strong><br />
-        Jonas Kell<br />
-        Tristan Emig<br />
-        Andreas Höpfel<br />
+        {{ deobfuscate(NAME1_OBVUSCATED) }}<br />
+        {{ deobfuscate(NAME2_OBVUSCATED) }}<br />
+        {{ deobfuscate(NAME3_OBVUSCATED) }}<br />
     </p>
     <p>
         <strong>Umsatzsteuer-ID: </strong> <br />
-        Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz: 102/164/50146<br /><br />
-        <strong>Wirtschafts-ID: </strong><br />
-        <br />
+        Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz: {{ deobfuscate(VAT_ID_NUMBER_OBVUSCATED) }}<br /><br />
+        <!--  <strong>Wirtschafts-ID: </strong><br />
+        <br /> -->
     </p>
     <p>
         <strong>Haftungsausschluss: </strong><br /><br /><strong>Haftung für Inhalte</strong><br /><br />
@@ -69,6 +69,16 @@
     <a href="https://www.kanzlei-hasselbach.de/" rel="dofollow">Kanzlei Hasselbach</a>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+    import {
+        CITY_OBVUSCATED,
+        deobfuscate,
+        NAME1_OBVUSCATED,
+        NAME2_OBVUSCATED,
+        NAME3_OBVUSCATED,
+        STREET_OBVUSCATED,
+        VAT_ID_NUMBER_OBVUSCATED,
+    } from "../obfuscation";
+</script>
 
 <style scoped></style>

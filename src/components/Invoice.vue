@@ -55,9 +55,13 @@
         costTimingTrailer,
         costWindmeterTechnical,
     } from "./../costs.ts";
-
-    const OBFUSCATION_KEY = 42; // Any number (should be consistent)
-    // the addresses and semi-personal default-data are obfuscated in the source to not get it web-scraped (easily)
+    import {
+        CITY_OBVUSCATED,
+        deobfuscate,
+        OWN_MAIL_OBVUSCATED,
+        SCHWABEN_MAIL_OBVUSCATED,
+        STREET_OBVUSCATED,
+    } from "../obfuscation.ts";
 
     const variantIsJTA = ref(true);
     const ownName = ref("");
@@ -95,10 +99,10 @@
     function initializeDetails() {
         if (variantIsJTA.value) {
             ownName.value = deobfuscate("YF9ZXgpDRAp+Q0dPCmtZWUVJQ0teQ0VE");
-            ownStreet.value = deobfuscate("eUlCS19dQ09ZWV5YBAobGA==");
-            ownCity.value = deobfuscate("EhwSGRoKeUlCXUtIR9ZESUJPRA==");
+            ownStreet.value = deobfuscate(STREET_OBVUSCATED);
+            ownCity.value = deobfuscate(CITY_OBVUSCATED);
             ownTel.value = deobfuscate("AR4TChsfHRkKGBwbHxsYGg==");
-            ownMail.value = deobfuscate("SUVEXktJXmpAX1leB0NEB15DR08HS1lZRUlDS15DRUQETk8=");
+            ownMail.value = deobfuscate(OWN_MAIL_OBVUSCATED);
             ownIBAN.value = deobfuscate("bm8aEgobGBoZChoaGhoKGxgaHwoYHBkaChsZ");
             if (isFinalStatement.value) {
                 title.value = "Rechnung";
@@ -133,7 +137,7 @@
             ownStreet.value = "----------";
             ownCity.value = "----------";
             ownTel.value = "----------";
-            ownMail.value = deobfuscate("UE9DXkRLQkdPakhGXAdZSUJdS0hPRAROTw==");
+            ownMail.value = deobfuscate(SCHWABEN_MAIL_OBVUSCATED);
             ownIBAN.value = "Keine Rechnung";
             title.value = "Leistungsübersicht vor Rechnungsstellung";
             if (isFinalStatement.value) {
@@ -373,27 +377,6 @@
         }
         doc.save(filename);
     }
-
-    function obfuscate(text: string) {
-        if (text == "") {
-            return "";
-        }
-
-        return btoa([...text].map((c) => String.fromCharCode(c.charCodeAt(0) ^ OBFUSCATION_KEY)).join(""));
-    }
-
-    function deobfuscate(encoded: string) {
-        if (encoded == "") {
-            return "";
-        }
-
-        return [...atob(encoded)].map((c) => String.fromCharCode(c.charCodeAt(0) ^ OBFUSCATION_KEY)).join("");
-    }
-
-    // Example Usage for the obfuscation (do not commit the "secret" things obviously)
-    const original = "testtesttest";
-    const obfuscated = obfuscate(original);
-    console.log(obfuscated);
 </script>
 
 <style scoped>

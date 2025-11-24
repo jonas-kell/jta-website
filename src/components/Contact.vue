@@ -8,12 +8,14 @@
     <p>Anfragen für die Miete und oder Reservierung der Anlage an:</p>
 
     <p>
-        <a v-if="appStore.standalone" href="mailto:contact@just-in-time-association.de">contact@just-in-time-association.de</a>
-        <a v-else href="mailto:zeitnahme@blv-schwaben.de">zeitnahme@blv-schwaben.de</a>
+        <a v-if="appStore.standalone" :href="'mailto:' + deobfuscate(OWN_MAIL_OBVUSCATED)">
+            {{ deobfuscate(OWN_MAIL_OBVUSCATED) }}</a
+        >
+        <a v-else :href="'mailto:' + deobfuscate(SCHWABEN_MAIL_OBVUSCATED)">{{ deobfuscate(SCHWABEN_MAIL_OBVUSCATED) }}</a>
     </p>
 
     <h3>Verantwortlicher Zeitmessung:</h3>
-    <p>Jonas Kell (Just in Time Association)</p>
+    <p>{{ deobfuscate(NAME1_OBVUSCATED) }} (Just in Time Association)</p>
 
     <h3>Zubuchung eines Anlagenbetreuers und/oder Zeitmessers:</h3>
     <img src="/src/public/tsv-smue-experts.jpg" class="small-image" />
@@ -33,8 +35,10 @@
     <p class="multiline-p">Bei Bedarf unbedingt bei Kontaktaufnahme ansprechen!!</p>
 
     <p>
-        <a v-if="appStore.standalone" href="mailto:contact@just-in-time-association.de">contact@just-in-time-association.de</a>
-        <a v-else href="mailto:zeitnahme@blv-schwaben.de">zeitnahme@blv-schwaben.de</a>
+        <a v-if="appStore.standalone" :href="'mailto:' + deobfuscate(OWN_MAIL_OBVUSCATED)">
+            {{ deobfuscate(OWN_MAIL_OBVUSCATED) }}</a
+        >
+        <a v-else :href="'mailto:' + deobfuscate(SCHWABEN_MAIL_OBVUSCATED)">{{ deobfuscate(SCHWABEN_MAIL_OBVUSCATED) }}</a>
     </p>
 
     <p>!! Beachte Transportanforderungen für Videowall, siehe <router-link to="download">Downloads</router-link> !!</p>
@@ -42,6 +46,7 @@
 
 <script setup lang="ts">
     import useAppStore from "../app-store";
+    import { deobfuscate, NAME1_OBVUSCATED, OWN_MAIL_OBVUSCATED, SCHWABEN_MAIL_OBVUSCATED } from "../obfuscation";
     const appStore = useAppStore();
 </script>
 
