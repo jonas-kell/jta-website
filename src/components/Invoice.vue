@@ -107,7 +107,7 @@
             ownCity.value = deobfuscate(CITY_OBVUSCATED);
             ownTel.value = deobfuscate("AR4TChsfHRkKGBwbHxsYGg==");
             ownMail.value = deobfuscate(OWN_MAIL_OBVUSCATED);
-            ownIBAN.value = deobfuscate("bm8aEgobGBoZChoaGhoKGxgaHwoYHBkaChsZ");
+            ownIBAN.value = deobfuscate("bm8aEgobGBoZChoaGhoKGxgaHwoYHBkaChsZ") + " /";
             ownIBAN2.value =
                 deobfuscate("bmFo") + " / " + deobfuscate(NAME1_OBVUSCATED) + " / " + deobfuscate("aHNma25vZxsaGhs=");
 
@@ -354,7 +354,7 @@
         if (isFinalStatement.value) {
             let rightSideValue;
             if (variantIsJTA.value) {
-                rightSideValue = ownIBAN.value + " /";
+                rightSideValue = ownIBAN.value;
             } else {
                 rightSideValue = "Keine Rechnung";
             }
