@@ -16,9 +16,14 @@
         {{ deobfuscate(NAME3_OBVUSCATED) }}<br />
     </p>
     <p>
-        <strong>Umsatzsteuer-ID: </strong> <br />
-        Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz: {{ deobfuscate(VAT_ID_NUMBER_OBVUSCATED) }}<br /><br />
-        <!--  <strong>Wirtschafts-ID: </strong><br />
+        <strong>Steuernummer: </strong> <br />
+        {{ deobfuscate(VAT_ID_NUMBER_OBVUSCATED) }}
+        <!-- 
+            <strong>Umsatzsteuer-ID: </strong> <br />
+            Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz: ----
+            <br /><br />
+            <strong>Wirtschafts-ID: </strong><br />
+            ----
         <br /> -->
     </p>
     <p>

@@ -14,6 +14,7 @@
         <p>Eigene Tel.: <input type="text" v-model="ownTel" /></p>
         <p>Eigene Mail: <input type="text" v-model="ownMail" /></p>
         <p>Eigene IBAN: <input type="text" v-model="ownIBAN" /></p>
+        <p v-if="variantIsJTA">Eigene Kontodaten: <input type="text" v-model="ownIBAN2" /></p>
         <br />
         <p>Empfänger Verein: <input type="text" v-model="recipientOrganization" /></p>
         <p>Empfänger Name: <input type="text" v-model="recipientName" /></p>
@@ -43,7 +44,7 @@
     const appStore = useAppStore();
     appStore.dark; // just that the app store works and doesn't give unused errors
     import { jsPDF } from "jspdf";
-    import imageData from "./../public/Logo-Schwaben.png?base64";
+    import imageDataSchwaben from "./../public/Logo-Schwaben.png?base64";
     import imageDataJTA from "./../public/just-in-time-association-logo.png?base64";
     import { ref, watch } from "vue";
     import {
@@ -58,9 +59,11 @@
     import {
         CITY_OBVUSCATED,
         deobfuscate,
+        NAME1_OBVUSCATED,
         OWN_MAIL_OBVUSCATED,
         SCHWABEN_MAIL_OBVUSCATED,
         STREET_OBVUSCATED,
+        VAT_ID_NUMBER_OBVUSCATED,
     } from "../obfuscation.ts";
 
     const variantIsJTA = ref(true);
@@ -70,6 +73,7 @@
     const ownTel = ref("");
     const ownMail = ref("");
     const ownIBAN = ref("");
+    const ownIBAN2 = ref("");
 
     const recipientOrganization = ref("");
     const recipientName = ref("");
@@ -104,6 +108,9 @@
             ownTel.value = deobfuscate("AR4TChsfHRkKGBwbHxsYGg==");
             ownMail.value = deobfuscate(OWN_MAIL_OBVUSCATED);
             ownIBAN.value = deobfuscate("bm8aEgobGBoZChoaGhoKGxgaHwoYHBkaChsZ");
+            ownIBAN2.value =
+                deobfuscate("bmFo") + " / " + deobfuscate(NAME1_OBVUSCATED) + " / " + deobfuscate("aHNma25vZxsaGhs=");
+
             if (isFinalStatement.value) {
                 title.value = "Rechnung";
                 payToExplanation.value = `Bitte begleichen Sie die Rechnung vollst. auf das Konto:`;
@@ -138,7 +145,9 @@
             ownCity.value = "----------";
             ownTel.value = "----------";
             ownMail.value = deobfuscate(SCHWABEN_MAIL_OBVUSCATED);
-            ownIBAN.value = "Keine Rechnung";
+            ownIBAN.value = deobfuscate("bm8aEgobGBoZChoaGhoKGxgaHwoYHBkaChsZ");
+            ownIBAN2.value = "";
+
             title.value = "Leistungsübersicht vor Rechnungsstellung";
             if (isFinalStatement.value) {
                 payToExplanation.value = `Auflistung zur Übersicht!`;
@@ -246,7 +255,7 @@
             imgWidth = 30;
         }
         doc.addImage(
-            variantIsJTA.value ? imageDataJTA : imageData,
+            variantIsJTA.value ? imageDataJTA : imageDataSchwaben,
             "PNG",
             20,
             10,
@@ -331,14 +340,39 @@
         );
 
         // lower description and hints
-        const LOWER_LINE_SEPARATION = 30;
+        const LOWER_LINE_SEPARATION = 38;
+        const SECOND_LINE_IBAN = variantIsJTA.value && isFinalStatement.value;
         doc.setFont(TEXT_FONT, "normal");
-        doc.text(payToExplanation.value, PAGE_MARGIN, PAGE_HEIGHT - LOWER_LINE_SEPARATION - LINE_SKIP * 1.5, {
-            align: "left",
-        });
+        doc.text(
+            payToExplanation.value,
+            PAGE_MARGIN,
+            PAGE_HEIGHT - LOWER_LINE_SEPARATION - LINE_SKIP * (1.5 + (SECOND_LINE_IBAN ? 1 : 0)),
+            {
+                align: "left",
+            }
+        );
         if (isFinalStatement.value) {
+            let rightSideValue;
+            if (variantIsJTA.value) {
+                rightSideValue = ownIBAN.value + " /";
+            } else {
+                rightSideValue = "Keine Rechnung";
+            }
+
             doc.setFont(TEXT_FONT, "bold");
-            doc.text(ownIBAN.value, PAGE_WIDTH - PAGE_MARGIN, PAGE_HEIGHT - LOWER_LINE_SEPARATION - LINE_SKIP * 1.5, {
+            doc.text(
+                rightSideValue,
+                PAGE_WIDTH - PAGE_MARGIN,
+                PAGE_HEIGHT - LOWER_LINE_SEPARATION - LINE_SKIP * (1.5 + (SECOND_LINE_IBAN ? 1 : 0)),
+                {
+                    align: "right",
+                }
+            );
+            doc.setFont(TEXT_FONT, "normal");
+        }
+        if (SECOND_LINE_IBAN) {
+            doc.setFont(TEXT_FONT, "bold");
+            doc.text(ownIBAN2.value, PAGE_WIDTH - PAGE_MARGIN, PAGE_HEIGHT - LOWER_LINE_SEPARATION - LINE_SKIP * 1.5, {
                 align: "right",
             });
             doc.setFont(TEXT_FONT, "normal");
@@ -367,13 +401,29 @@
             align: "left",
             maxWidth: PAGE_WIDTH - 2 * PAGE_MARGIN,
         });
+        if (variantIsJTA.value) {
+            doc.setFont(TEXT_FONT, "bold");
+            doc.text(
+                "Just in Time Association - Steuer Nr. " + deobfuscate(VAT_ID_NUMBER_OBVUSCATED),
+                PAGE_WIDTH - PAGE_MARGIN,
+                PAGE_HEIGHT - LOWER_LINE_SEPARATION + LINE_SKIP * 3.5,
+                {
+                    align: "right",
+                }
+            );
+            doc.setFont(TEXT_FONT, "normal");
+        }
 
         // store/download file
         let filename;
-        if (isFinalStatement.value) {
-            filename = "invoice.pdf";
+        if (variantIsJTA.value) {
+            if (isFinalStatement.value) {
+                filename = "invoice.pdf";
+            } else {
+                filename = "offer.pdf";
+            }
         } else {
-            filename = "offer.pdf";
+            filename = "overview.pdf";
         }
         doc.save(filename);
     }
