@@ -13,7 +13,7 @@
         <p>Eigene Stadt: <input type="text" v-model="ownCity" /></p>
         <p>Eigene Tel.: <input type="text" v-model="ownTel" /></p>
         <p>Eigene Mail: <input type="text" v-model="ownMail" /></p>
-        <p>Eigene IBAN: <input type="text" v-model="ownIBAN" /></p>
+        <p v-if="variantIsJTA">Eigene IBAN: <input type="text" v-model="ownIBAN" /></p>
         <p v-if="variantIsJTA">Eigene Kontodaten: <input type="text" v-model="ownIBAN2" /></p>
         <br />
         <p>Empfänger Verein: <input type="text" v-model="recipientOrganization" /></p>
