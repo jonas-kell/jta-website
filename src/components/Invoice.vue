@@ -37,9 +37,12 @@
         <h3>Dateinamen und Mail Extra-Infos</h3>
         <p>Veranstaltungsort: <input type="text" v-model="eventLocation" /></p>
         <p>Veranstaltungstitel: <input type="text" v-model="eventName" /></p>
+        <p>Mail Von: <input type="text" v-model="writingPerson" /></p>
     </div>
 
     <button @click="generatePDF">Rechnung Generieren</button>
+    <br />
+    <button @click="emailLink">Mail Template</button>
 </template>
 
 <script setup lang="ts">
@@ -68,6 +71,7 @@
         STREET_OBVUSCATED,
         VAT_ID_NUMBER_OBVUSCATED,
     } from "../obfuscation.ts";
+    import { generateMailToLinkForInvoice } from "../mail.ts";
 
     const variantIsJTA = ref(true);
     const ownName = ref("");
@@ -96,6 +100,7 @@
 
     const eventLocation = ref("");
     const eventName = ref("");
+    const writingPerson = ref("");
 
     type InvoiceEntry = {
         id: number;
@@ -433,6 +438,20 @@
             filename = `Leistungsübersicht${eventLocation.value == "" ? "" : " " + eventLocation.value}${eventName.value == "" ? "" : " " + eventName.value}.pdf`;
         }
         doc.save(filename);
+    }
+
+    function emailLink() {
+        const [operationYear, operationMonth, operationDay] = dateOfOperation.value.split("-");
+        const operationDateString = `${operationDay}.${operationMonth}.${operationYear}`;
+
+        window.location.href = generateMailToLinkForInvoice(
+            recipientEmail.value,
+            operationDateString,
+            eventLocation.value,
+            eventName.value,
+            reNr.value,
+            writingPerson.value,
+        );
     }
 </script>
 
