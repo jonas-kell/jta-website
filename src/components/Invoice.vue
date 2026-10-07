@@ -34,6 +34,9 @@
             <input type="number" placeholder="Cost" v-model="entry.price" step="0.01" />
             x <input type="number" placeholder="Amount" v-model="entry.amount" min="0" step="1" />
         </p>
+        <h3>Dateinamen und Mail Extra-Infos</h3>
+        <p>Veranstaltungsort: <input type="text" v-model="eventLocation" /></p>
+        <p>Veranstaltungstitel: <input type="text" v-model="eventName" /></p>
     </div>
 
     <button @click="generatePDF">Rechnung Generieren</button>
@@ -90,6 +93,9 @@
     const date = ref(new Date().toISOString().split("T")[0]);
     const payToExplanation = ref("");
     const reNr = ref("");
+
+    const eventLocation = ref("");
+    const eventName = ref("");
 
     type InvoiceEntry = {
         id: number;
@@ -263,7 +269,7 @@
             imgWidth * imgRatio,
             "Logo",
             "NONE",
-            0
+            0,
         );
 
         // Main body
@@ -301,7 +307,7 @@
         // main entries to the
         const tableEntries = entries.value.map(
             (
-                entry: InvoiceEntry
+                entry: InvoiceEntry,
             ): {
                 [key: string]: string;
             } => {
@@ -311,7 +317,7 @@
                     [entryAmountKey]: String(Math.round(entry.amount)),
                     [subtotalKey]: formatPrice(entry.price * entry.amount),
                 };
-            }
+            },
         );
         const skipEntry = {
             [topicKey]: "---------------------------------------------------------------",
@@ -336,7 +342,7 @@
             {
                 autoSize: true,
                 padding: 2,
-            }
+            },
         );
 
         // lower description and hints
@@ -349,7 +355,7 @@
             PAGE_HEIGHT - LOWER_LINE_SEPARATION - LINE_SKIP * (1.5 + (SECOND_LINE_IBAN ? 1 : 0)),
             {
                 align: "left",
-            }
+            },
         );
         if (isFinalStatement.value) {
             let rightSideValue;
@@ -366,7 +372,7 @@
                 PAGE_HEIGHT - LOWER_LINE_SEPARATION - LINE_SKIP * (1.5 + (SECOND_LINE_IBAN ? 1 : 0)),
                 {
                     align: "right",
-                }
+                },
             );
             doc.setFont(TEXT_FONT, "normal");
         }
@@ -389,7 +395,7 @@
             PAGE_HEIGHT - LOWER_LINE_SEPARATION + LINE_SKIP * 1.0,
             {
                 align: "left",
-            }
+            },
         );
         let lowerNoticeTextVat =
             "Diese Rechnung enthält keine Ausweisung der Umsatz-/Mehrwertsteuer aufgrund von Anwendung der Kleinunternehmer Regelung §19 UStG.";
@@ -409,21 +415,22 @@
                 PAGE_HEIGHT - LOWER_LINE_SEPARATION + LINE_SKIP * 3.5,
                 {
                     align: "right",
-                }
+                },
             );
             doc.setFont(TEXT_FONT, "normal");
         }
 
         // store/download file
         let filename;
+        const operationDateStringForOutput = `${operationYear}_${operationMonth}_${operationDay}`;
         if (variantIsJTA.value) {
             if (isFinalStatement.value) {
-                filename = "invoice.pdf";
+                filename = `${reNr.value} ${operationDateStringForOutput}${eventLocation.value == "" ? "" : " " + eventLocation.value}${eventName.value == "" ? "" : " " + eventName.value}.pdf`;
             } else {
-                filename = "offer.pdf";
+                filename = `Angebot ${operationDateStringForOutput}${eventLocation.value == "" ? "" : " " + eventLocation.value}${eventName.value == "" ? "" : " " + eventName.value}.pdf`;
             }
         } else {
-            filename = "overview.pdf";
+            filename = `Leistungsübersicht${eventLocation.value == "" ? "" : " " + eventLocation.value}${eventName.value == "" ? "" : " " + eventName.value}.pdf`;
         }
         doc.save(filename);
     }
